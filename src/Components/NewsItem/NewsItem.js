@@ -16,7 +16,7 @@ class NewsItem extends React.Component {
     } = this.props;
 
     return (
-      <div className="card col-lg-4 col-md-6 col-sm-12 border-0">
+      <div className="card  border-0">
         <div className="card-body">
           <div className="row">
             <img src={urlToImage} />
