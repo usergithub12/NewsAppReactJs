@@ -8,6 +8,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "./Components/Header/Header";
 import News from "./Components/News/News";
 import AddNews from "./Components/AddNews/AddNews";
+
+import About from "./Components/About/About";
+import Contact from "./Components/Contact/Contact";
 //Router
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
@@ -106,21 +109,35 @@ class App extends React.Component {
   render() {
     return (
       <Fragment>
-        <Header />
-        <div className="container">
-          <div className="row">
-            <div className="col-md-12 text-center">
-              <h2>List of News</h2>
-              <p>World News</p>
+        <Router>
+          <Header />
+          <Switch>
+            <div className="container">
+              <div className="row">
+                <div className="col-md-12 text-center">
+                  <h2>List of News</h2>
+                  <p>World News</p>
+                </div>
+              </div>
+              <div className="row">
+                <div className="card-columns">
+                  <Route
+                    path="/"
+                    exact
+                    render={() => <News NewsList={this.state.List} />}
+                  />
+                  <Route path="/contact" exact component={Contact} />
+                  <Route path="/about" exact component={About} />
+                </div>
+                <Route
+                  path="/add"
+                  exact
+                  render={() => <AddNews addContact={this.addNews} />}
+                />
+              </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="card-columns">
-              <News NewsList={this.state.List} />
-            </div>
-          </div>
-        </div>
-        <AddNews addContact={this.addNews} />
+          </Switch>
+        </Router>
       </Fragment>
     );
   }
