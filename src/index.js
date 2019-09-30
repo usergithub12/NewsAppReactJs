@@ -14,6 +14,10 @@ import Contact from "./Components/Contact/Contact";
 //Router
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
+//API
+import "./APIClient/api";
+import APIClient from "./APIClient/api";
+
 class App extends React.Component {
   state = {
     List: [
@@ -106,6 +110,38 @@ class App extends React.Component {
     });
   };
 
+  // getNewsFromApi = news=>{
+
+  // const newsist= new APIClient();
+  //   this.setState(state=>{
+  // return{
+  //   List:news
+  // }
+
+  //   })
+  // }
+
+  componentDidMount(){
+    this.updateNews
+  }
+
+  updateNews = (country = "ua") => {
+    const news = new APIClient();
+    const newsList = news
+      .getAllNews(country)
+      .then(({ articles }) => {
+        const newsList = articles;
+        console.log(articles);
+
+        this.setState(state => {
+          return {
+            List: newsList
+          };
+        });
+      })
+
+      .catch(err => console.log(err.message));
+  };
   render() {
     return (
       <Fragment>

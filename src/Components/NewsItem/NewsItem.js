@@ -47,10 +47,7 @@ class NewsItem extends React.Component {
                     <i className="fa fa-calendar"></i>
                     {publishedAt}
                   </li>
-                  <li className="list-inline-item text-secondary">
-                    {/* <i className="fa fa-calendar"></i> */}
-                    {content}
-                  </li>
+                 
                 </ul>
               </div>
             </div>
