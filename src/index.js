@@ -85,7 +85,14 @@ class App extends React.Component {
       }
     ],
     counter: 100,
-    findNews: ""
+    findNews: "",
+    countryvalue: "US"
+  };
+
+  onCountryChange = cv => {
+    this.setState({ countryvalue: cv }, () => {
+      console.log("onCountryChange  countryvalue:" + this.state.countryvalue);
+    });
   };
 
   addNews = news => {
@@ -127,10 +134,14 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    this.updateNews();
+    this.updateNews(this.state.countryvalue);
+  }
+  componentWillUpdate() {
+    this.updateNews(this.state.countryvalue);
   }
 
-  updateNews = (country = "ua") => {
+  updateNews = country => {
+    console.log("from updateNEws ", country);
     const news = new APIClient();
     const newsList = news
       .getAllNews(country)
@@ -152,7 +163,7 @@ class App extends React.Component {
     return (
       <Fragment>
         <Router>
-          <Header />
+          <Header onCountryChange={this.onCountryChange} />
           <Search onSearch={this.onSearch} />
           <Switch>
             <div className="container">
