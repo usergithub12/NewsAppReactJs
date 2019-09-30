@@ -8,7 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "./Components/Header/Header";
 import News from "./Components/News/News";
 import AddNews from "./Components/AddNews/AddNews";
-
+import Search from "./Components/Search/Search";
 import About from "./Components/About/About";
 import Contact from "./Components/Contact/Contact";
 //Router
@@ -84,7 +84,8 @@ class App extends React.Component {
           "Having trumped up the risks of unregulated cryptocurrencies earlier this year, Dutchbank ABN Amro NV finds itself in the midst of a major money-laundering scandal.\r\nOn Sept. 26, Bloomberg reported on news of a criminal probe into the bank’s alleged failures t… [+2515 chars]"
       }
     ],
-    counter: 100
+    counter: 100,
+    findNews: ""
   };
 
   addNews = news => {
@@ -110,19 +111,23 @@ class App extends React.Component {
     });
   };
 
-  // getNewsFromApi = news=>{
+  onSearch = searchname => {
+    this.setState({
+      findNews: searchname
+    });
+  };
 
-  // const newsist= new APIClient();
-  //   this.setState(state=>{
-  // return{
-  //   List:news
-  // }
+  onShowNews = (items, searchValue) => {
+    if (searchValue.length === 0) {
+      return items;
+    }
+    return items.filter(item => {
+      return item.title.toLowerCase().indexOf(searchValue.toLowerCase()) > -1;
+    });
+  };
 
-  //   })
-  // }
-
-  componentDidMount(){
-    this.updateNews
+  componentDidMount() {
+    this.updateNews();
   }
 
   updateNews = (country = "ua") => {
@@ -143,10 +148,12 @@ class App extends React.Component {
       .catch(err => console.log(err.message));
   };
   render() {
+    const showNews = this.onShowNews(this.state.List, this.state.findNews);
     return (
       <Fragment>
         <Router>
           <Header />
+          <Search onSearch={this.onSearch} />
           <Switch>
             <div className="container">
               <div className="row">
@@ -160,7 +167,9 @@ class App extends React.Component {
                   <Route
                     path="/"
                     exact
-                    render={() => <News NewsList={this.state.List} />}
+                    render={() => (
+                      <News NewsList={showNews} onSearch={this.onSearch} />
+                    )}
                   />
                   <Route path="/contact" exact component={Contact} />
                   <Route path="/about" exact component={About} />
